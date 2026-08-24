@@ -4,8 +4,10 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Insets;
 import java.util.concurrent.atomic.AtomicBoolean;
+import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
+import net.runelite.client.ui.ColorScheme;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -59,6 +61,19 @@ public class ProgressPanelTest
 			assertNotNull(scrollPane);
 			assertNull(scrollPane.getBorder());
 			assertNull(scrollPane.getViewportBorder());
+		});
+	}
+
+	@Test
+	public void titleIncludesOrangeBetaLabel() throws Exception
+	{
+		SwingUtilities.invokeAndWait(() ->
+		{
+			ProgressPanel panel = new ProgressPanel();
+			JLabel betaLabel = findLabel(panel.getWrappedPanel(), "BETA");
+
+			assertNotNull(betaLabel);
+			assertEquals(ColorScheme.BRAND_ORANGE, betaLabel.getForeground());
 		});
 	}
 
@@ -157,6 +172,26 @@ public class ProgressPanelTest
 				if (scrollPane != null)
 				{
 					return scrollPane;
+				}
+			}
+		}
+		return null;
+	}
+
+	private static JLabel findLabel(Container container, String text)
+	{
+		for (Component component : container.getComponents())
+		{
+			if (component instanceof JLabel && text.equals(((JLabel) component).getText()))
+			{
+				return (JLabel) component;
+			}
+			if (component instanceof Container)
+			{
+				JLabel label = findLabel((Container) component, text);
+				if (label != null)
+				{
+					return label;
 				}
 			}
 		}

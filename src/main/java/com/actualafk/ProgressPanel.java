@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.image.BufferedImage;
 import java.util.Objects;
 import java.util.Locale;
@@ -175,10 +176,20 @@ public class ProgressPanel extends PluginPanel
 			BorderFactory.createMatteBorder(0, 0, 1, 0, ColorScheme.BRAND_ORANGE),
 			new EmptyBorder(6, 0, 8, 0)));
 
-		JLabel titleLabel = new JLabel("Actual AFK", SwingConstants.CENTER);
+		JPanel titleLabels = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 0));
+		titleLabels.setOpaque(false);
+
+		JLabel titleLabel = new JLabel("Actual AFK");
 		titleLabel.setForeground(Color.WHITE);
 		titleLabel.setFont(FontManager.getRunescapeBoldFont().deriveFont(FontManager.getRunescapeBoldFont().getSize2D() + 3));
-		titlePanel.add(titleLabel, BorderLayout.CENTER);
+
+		JLabel betaLabel = new JLabel("BETA");
+		betaLabel.setForeground(ColorScheme.BRAND_ORANGE);
+		betaLabel.setFont(FontManager.getRunescapeBoldFont());
+
+		titleLabels.add(titleLabel);
+		titleLabels.add(betaLabel);
+		titlePanel.add(titleLabels, BorderLayout.CENTER);
 		return titlePanel;
 	}
 
