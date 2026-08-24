@@ -1,46 +1,25 @@
-# Actual AFK RuneLite plugin
+# Actual AFK
 
-Actual AFK is a passive RuneLite plugin that tracks AFK time, streaks, and AFK XP.
+Actual AFK is a passive RuneLite plugin that tracks time spent inactive while logged in.
 
-## test locally
+This plugin is still in a beta phase, I'm collecting information and feedback about the tracking and persistence before potentialy expanding on it further. If there is interest I want to build out highscores for this skill, just for fun.
 
-From this directory, run:
+The plugin records:
 
-```bash
-./gradlew test
-```
+- Current and longest inactive streaks
+- Session and total inactive time
+- Session and total active and inactive percentages
+- Client-local AFK XP and levels
+- Session AFK XP per hour
 
-This compiles the plugin and runs its unit tests. The first run downloads Gradle and the RuneLite dependencies.
+A game tick counts as inactive only when the local player is logged in, is not moving, is not animating, is not interacting, and has no recently observed activity. The minimum number of inactive ticks and the activity grace period can be configured.
 
-## run RuneLite in developer mode
+Progress is shown in a RuneLite side panel. An optional movable RuneLite canvas overlay can show the current level, AFK XP, activity state, and inactive streak.
 
-From this directory, run:
+Individual statistics can be hidden from the side panel. Tracking and the canvas overlay can also be enabled or disabled in the plugin configuration.
 
-```bash
-./gradlew runHotSwap
-```
+Progress is stored locally in the active RuneLite profile. It is not OSRS experience, does not affect the player's Jagex account, and is not an official skill.
 
-When RuneLite starts, enable **Actual AFK** in the plugin configuration. Select its clock toolbar button to open the RuneLite-owned side panel. Right-click the progress card and select **Add to canvas** to show the persistent, movable RuneLite overlay; use **Remove from canvas** to hide it again. Its placement is managed by RuneLite's standard overlay controls. Progress is stored in RuneLite and does not affect your OSRS account.
+All tracking is observational. The plugin does not perform game actions or send data to external services.
 
-The `runHotSwap` task loads the plugin in developer mode and listens for a debugger on port `5005`. It does not install or publish anything to the Plugin Hub. The project also defines `./gradlew run`, but repository development uses `runHotSwap`; use `run` only when explicitly requested.
-
-## use standard HotSwap
-
-If RuneLite is not already running, start it with a debugger socket:
-
-```bash
-./gradlew runHotSwap
-```
-
-Then attach IntelliJ:
-
-1. Open **Run → Edit Configurations**.
-2. Add **Remote JVM Debug**.
-3. Set host to `localhost` and port to `5005`.
-4. Start that debug configuration.
-5. After changing a method body, select **Build → Build Project**. IntelliJ reloads the changed class into the running client.
-6. Disable and re-enable **Actual AFK** when its startup state or panel values need refreshing.
-
-Standard HotSwap handles method-body changes. Restart RuneLite after changing fields, method signatures, annotations, resources, dependencies, or class structure.
-
-The project is distributed under the BSD 2-Clause License in the repository root.
+The project is distributed under the BSD 2-Clause License.
