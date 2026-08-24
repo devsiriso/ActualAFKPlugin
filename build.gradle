@@ -1,0 +1,67 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    maven {
+        url = 'https://repo.runelite.net'
+        content {
+            includeGroupByRegex 'net\\.runelite.*'
+        }
+    }
+    mavenCentral()
+}
+
+def runeLiteVersion = 'latest.release'
+
+group = 'com.actualafk'
+version = '1.0.0'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(11)
+    }
+}
+
+dependencies {
+    compileOnly group: 'net.runelite', name: 'client', version: runeLiteVersion
+
+    testImplementation group: 'net.runelite', name: 'client', version: runeLiteVersion
+    testImplementation group: 'net.runelite', name: 'jshell', version: runeLiteVersion
+    testImplementation 'junit:junit:4.13.2'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 11
+}
+
+tasks.register('run', JavaExec) {
+	group = 'application'
+	description = 'Starts RuneLite in developer mode with the Actual AFK plugin loaded.'
+	classpath = sourceSets.test.runtimeClasspath
+	mainClass = 'com.actualafk.DeveloperLauncher'
+	javaLauncher = javaToolchains.launcherFor {
+		languageVersion = JavaLanguageVersion.of(11)
+	}
+    jvmArgs '-ea'
+    args '--developer-mode', '--debug'
+}
+
+tasks.register('runHotSwap', JavaExec) {
+	group = 'application'
+	description = 'Starts RuneLite with standard JVM HotSwap listening on port 5005.'
+	classpath = sourceSets.test.runtimeClasspath
+	mainClass = 'com.actualafk.DeveloperLauncher'
+	javaLauncher = javaToolchains.launcherFor {
+		languageVersion = JavaLanguageVersion.of(11)
+	}
+	jvmArgs '-ea'
+	args '--developer-mode', '--debug'
+	debugOptions {
+		enabled = true
+		port = 5005
+		server = true
+		suspend = false
+	}
+}

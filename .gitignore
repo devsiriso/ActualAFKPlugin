@@ -1,0 +1,39 @@
+# Gradle and compiled output
+.gradle/
+.gradle-user-home/
+build/
+bin/
+out/
+*.class
+
+# IDE and editor state
+.idea/
+.vscode/
+.project
+.settings/
+.classpath
+nbactions.xml
+nb-configuration.xml
+nbproject/
+*.iml
+*.code-workspace
+*.swp
+*.swo
+*~
+
+# Local environment and credentials
+.env
+.env.*
+gradle.properties
+*.key
+*.pem
+
+# Operating-system and runtime debris
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.bak
+*.orig
+*.rej
+hs_err_pid*.log
